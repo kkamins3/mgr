@@ -1,17 +1,22 @@
 package com.mgr.agents.sample.behaviours;
 
+import com.mgr.agents.sample.utility.Status;
+import com.mgr.agents.sample.utility.Task;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
 
+import java.util.ArrayList;
+
 /**
  * Created by a on 19.04.16.
  */
 public class ReceiveTaskBehaviour extends CyclicBehaviour {
-
-    public ReceiveTaskBehaviour(Agent a) {
+    private final Status status;
+    public ReceiveTaskBehaviour(Agent a, Status s) {
         super(a);
+        this.status = s;
     }
 
     public void action() {
@@ -19,19 +24,18 @@ public class ReceiveTaskBehaviour extends CyclicBehaviour {
         ACLMessage msg = myAgent.receive(mt);
         if (msg != null) {
             // ACCEPT_PROPOSAL Message received. Process it
-            String title = msg.getContent();
+            String task = msg.getContent();
             ACLMessage reply = msg.createReply();
 
-//            Integer price = (Integer) catalogue.remove(title);
-//            if (price != null) {
+            if (status.addTask(task)) {
                 reply.setPerformative(ACLMessage.INFORM);
-//                System.out.println(title+" sold to agent "+msg.getSender().getName());
-//            }
-//            else {
+                System.out.println(task.toString()+" Added to the queue");
+            }
+            else {
                 // The requested book has been sold to another buyer in the meanwhile .
                 reply.setPerformative(ACLMessage.FAILURE);
-                reply.setContent("not-available");
-//            }
+                reply.setContent("Failed to receive task");
+            }
             myAgent.send(reply);
         }
         else {
