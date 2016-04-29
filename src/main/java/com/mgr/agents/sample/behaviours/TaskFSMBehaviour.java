@@ -16,7 +16,7 @@ public class TaskFSMBehaviour extends Behaviour {
         DONE
     }
     private TaskState state;
-    private Task task;
+    private final Task task;
 
     private int estimation;
     public TaskFSMBehaviour(Agent a, Task task) {
