@@ -8,7 +8,7 @@ import jade.core.behaviours.TickerBehaviour;
  * Created by a on 19.04.16.
  */
 public class MonitorBehaviour extends TickerBehaviour {
-    Status status;
+    private final Status status;
     public MonitorBehaviour(Agent a, Status s, long period) {
         super(a, period);
         this.status = s;
