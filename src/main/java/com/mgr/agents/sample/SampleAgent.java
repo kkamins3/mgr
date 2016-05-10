@@ -20,9 +20,13 @@ public class SampleAgent extends Agent {
 
     @Override
     public void setup() {
+        logger.info("");
         final String otherAgentName = (String) this.getArguments()[0];
+        logger.info("Adding TaskWaitBehaviour");
         addBehaviour(new TaskWaitBehaviour(this, status));
+        logger.info("Adding ReceiveTaskBehaviour");
         addBehaviour(new ReceiveTaskBehaviour(this, status));
+        logger.info("Adding MonitorBehaviour");
         addBehaviour(new MonitorBehaviour(this, status, 20));
     }
 
